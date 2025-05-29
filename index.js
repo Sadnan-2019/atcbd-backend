@@ -19,6 +19,10 @@ app.use("/uploads", express.static("uploads"));
 // Routes
 const serviceRoutes = require("./routes/serviceRoutes");
 app.use("/api/services", serviceRoutes);
+// app.use('/api/services', serviceRoutes);
+
+
+
 // const port = process.env.PORT || 5000;
 mongoose
   .connect(process.env.MONGO_URI)
