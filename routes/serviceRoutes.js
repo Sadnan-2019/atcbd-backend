@@ -44,7 +44,17 @@ router.get("/all", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch services", error });
   }
 });
-
-
+// DELETE a service by ID
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedService = await Service.findByIdAndDelete(req.params.id);
+    if (!deletedService) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+    res.status(200).json({ message: "Service deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting service", error });
+  }
+});
 
 module.exports = router;
