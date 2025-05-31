@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const categoryRoutes = require("./routes/categoryRoutes");
-
+const teamRoutes = require("./routes/teamRoutes");
 // const { MongoClient, ServerApiVersion } = require("mongodb");
 // const ObjectId = require("mongodb").ObjectId;
 const authRoutes = require("./routes/auth");
@@ -25,6 +25,7 @@ app.use("/api/services", serviceRoutes);
 // app.use('/api/services', serviceRoutes);
 
 app.use("/api/categories", categoryRoutes);
+app.use("/api/team", teamRoutes);
 
 
 // const port = process.env.PORT || 5000;
