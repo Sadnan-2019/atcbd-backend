@@ -11,19 +11,26 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "-" + file.originalname),
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage : storage });
 
 // Add News API
 router.post("/add-news", upload.single("file"), async (req, res) => {
   try {
     const { newsHeadline, publishDate, newsDescription } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : "";
+
+     const image = req.file;
+
+    if (!image) {
+      return res.status(400).json({ error: "Image upload failed" });
+    }
+
+    // const imageUrl = req.file ? `/uploads/${req.file.filename}` : "";
 
     const news = new News({
       newsHeadline,
       publishDate,
       newsDescription,
-      image: imageUrl,
+       image: image.path, // or image.path
     });
 
     await news.save();
@@ -33,5 +40,24 @@ router.post("/add-news", upload.single("file"), async (req, res) => {
     res.status(500).json({ error: "Failed to add news" });
   }
 });
+
+
+
+router.get("/all", async (req, res) => {
+  try {
+    const news = await News.find();
+    res.status(200).json(news);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch services", error });
+  }
+});
+
+
+
+
+
+
+
+
 
 module.exports = router;
