@@ -26,7 +26,8 @@ app.use("/api/services", serviceRoutes);
 
 app.use("/api/categories", categoryRoutes);
 app.use("/api/team", teamRoutes);
-
+const newsRoutes = require('./routes/newsRoutes');
+app.use('/api/news', newsRoutes);
 
 // const port = process.env.PORT || 5000;
 mongoose
