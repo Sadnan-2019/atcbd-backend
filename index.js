@@ -54,7 +54,9 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
+app.get("/railway", (req, res) => {
+  res.send("Backend running on Railway!");
+});
 app.get("/", (req, res) => {
   res.send("Hello FROM  ATCL    World!");
 });
