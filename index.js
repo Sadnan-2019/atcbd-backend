@@ -7,14 +7,6 @@ const teamRoutes = require("./routes/teamRoutes");
 const authRoutes = require("./routes/auth");
 
 const cors = require("cors");
-const allowedOrigins = ["https://atcl-bd.netlify.app"];
-
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
-
-
 require("dotenv").config();
 
 const app = express();
