@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
+const Admin = require('../models/Admin');
 const router = express.Router();
 
 // Register
@@ -43,6 +44,7 @@ router.post('/register', async (req, res) => {
  
 const jwt = require('jsonwebtoken');
 
+
 // Ensure you have a secret key in your .env file
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
@@ -75,6 +77,48 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+
+
+
+
+router.post("/users-login", async (req, res) => {
+  const { name, password } = req.body;
+
+  try {
+    const user = await Admin.findOne({ name });
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials (name not found)" });
+    }
+
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials (wrong password)" });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.json({
+      token,
+      user: { id: user._id, name: user.name },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
+
+
+
+
+
+
+
 
 
 module.exports = router;
